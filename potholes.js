@@ -19,7 +19,7 @@ function draw() {
         ctx.fillStyle = "gray";
         ctx.fillRect(0,0,w_vis, h_vis);
         
-        var potholes = [0.5, 0.5, 0.75, 1, 2, 2.5];
+        var potholes = [0.5, 0.5, 0.75, 1, 2, 2.25];
         var warning_threshold = 2;
         var max_depth = 3.0;
         
