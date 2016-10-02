@@ -20,6 +20,7 @@ function draw() {
         ctx.fillRect(0,0,w_vis, h_vis);
         
         var potholes = [0.5, 0.5, 0.75, 1, 2, 2.5];
+        var warning_threshold = 2;
         var max_depth = 3.0;
         
         var pothole_buffer_ratio = 2.0;
@@ -27,12 +28,24 @@ function draw() {
         var segments = potholes.length * pothole_buffer_ratio + potholes.length + 1;
         var segment_width = w_vis / segments;
         
+        var time = new Date();
+        var my_gradient = ctx.createLinearGradient(0,99*Math.sin((time.getMilliseconds() / 1500)),
+                                                   0,h_vis);
+        my_gradient.addColorStop(0, "white");
+        my_gradient.addColorStop(1, "red");
+                                                   
+
 
         // draw potholes
         var draw_x = 0;
         for (var i=0; i < potholes.length; i++) {
             draw_x += segment_width;
-            ctx.fillStyle = "white";
+            if(potholes[i] >= warning_threshold) {
+                ctx.fillStyle = "red";
+                ctx.fillStyle = my_gradient;
+            } else {
+                ctx.fillStyle = "white";
+            }
             ctx.fillRect(draw_x, 0, segment_width * pothole_buffer_ratio, potholes[i] / max_depth * h_vis);
             draw_x += segment_width * pothole_buffer_ratio;
         }
@@ -44,6 +57,7 @@ function draw() {
             ctx.stroke();
         }
     }
+    window.requestAnimationFrame(draw);
 }
 
 init();
