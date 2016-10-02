@@ -1,10 +1,10 @@
 
-function init(){
-    window.requestAnimationFrame(draw);
+function initLandslide(){
+    window.requestAnimationFrame(drawLandslide);
 }
 
-function draw() {
-    var canvas = document.getElementById('canvas');
+function drawLandslide() {
+    var canvas = document.getElementById('landslide');
     if (canvas.getContext){
         var ctx = canvas.getContext('2d');
         
@@ -16,15 +16,19 @@ function draw() {
         
         var fills = ["#6699ff", "#ff6699", "#99ff66"];
         // for dance party mode, uncomment
-        //fill = fills[(Math.floor(time.getMilliseconds() / (1000/6) ))% 3];
+        fill = fills[(Math.floor(time.getMilliseconds() / (1000/6) ))% 3];
         fill = fills[0];
         
         // color gradient mode
         var my_gradient = ctx.createLinearGradient(0,0,
-                                                   Math.floor(time.getMilliseconds()/1000 * size),
-                                                   Math.floor(time.getMilliseconds()/1000 * size));
+                                                   Math.floor(time.getMilliseconds()/1000 * (size+100)),
+                                                   Math.floor(time.getMilliseconds()/1000 * (size+100)));
         my_gradient.addColorStop(0, "white");
-        my_gradient.addColorStop(0.5, "#6699ff");
+        var aboveThreshold = true;
+        var dataColor = aboveThreshold? "#ff4444" :"#6699ff";
+        var dataMultiplier = aboveThreshold? 1.42 : 1.25;
+        
+        my_gradient.addColorStop(0.5, dataColor);
         my_gradient.addColorStop(1, "white");
         fill = my_gradient;
 
@@ -40,7 +44,7 @@ function draw() {
                       [width,0], 
                       [0,0]];
 
-        var data = scalePoints(points, 1.25);
+        var data = scalePoints(points, dataMultiplier);
 
         drawAndFillPath(ctx, data, true, fill);
         drawAndFillPath(ctx, points, true);
@@ -80,6 +84,7 @@ function draw() {
     }
 
 
-    window.requestAnimationFrame(draw);
+    window.requestAnimationFrame(drawLandslide);
 }
 
+initLandslide();
