@@ -19,10 +19,10 @@ function drawLandslide() {
         fill = fills[(Math.floor(time.getMilliseconds() / (1000/6) ))% 3];
         fill = fills[0];
         
-        // defining gradient gradient mode
+        // color gradient mode
         var my_gradient = ctx.createLinearGradient(0,0,
-                         Math.floor(time.getMilliseconds()/1000 * (size+100)),
-                         Math.floor(time.getMilliseconds()/1000 * (size+100)));
+                                                   Math.floor(time.getMilliseconds()/1000 * (size+100)),
+                                                   Math.floor(time.getMilliseconds()/1000 * (size+100)));
         my_gradient.addColorStop(0, "white");
         var aboveThreshold = true;
         var dataColor = aboveThreshold? "#ff4444" :"#6699ff";
@@ -33,6 +33,7 @@ function drawLandslide() {
         fill = my_gradient;
 
         // defining mountain points
+        
         var points = [[0,height],
                       [width/6,height-height/6],
                       [width/4,height-height/3],
@@ -43,15 +44,27 @@ function drawLandslide() {
                       [width,0], 
                       [0,0]];
 
-        // drawing mountain and data lines
+        var chunkX = scalePoints(points, 0.8);
+        var chunk = [
+                     points[1],
+                     points[2],
+                     points[3],
+                     points[4],
+                     points[5]
+                     
+                     ];
+
         var data = scalePoints(points, dataMultiplier);
-        drawAndFillPath(ctx, data, true, fill);
+        
+
+        //        drawAndFillPath(ctx, data, true, fill);
         drawAndFillPath(ctx, points, true);
-        drawAndFillPath(ctx, scalePoints(points,1.1), false);
-        drawAndFillPath(ctx, scalePoints(points,1.2), false);
-        drawAndFillPath(ctx, scalePoints(points,1.3), false);
-        drawAndFillPath(ctx, scalePoints(points,1.4), false);
-        drawAndFillPath(ctx, scalePoints(points,1.5), false);
+        drawAndFillPath(ctx, chunk, true, fill);
+        //drawAndFillPath(ctx, scalePoints(points,1.1), false);
+        //drawAndFillPath(ctx, scalePoints(points,1.2), false);
+        //drawAndFillPath(ctx, scalePoints(points,1.3), false);
+        //drawAndFillPath(ctx, scalePoints(points,1.4), false);
+        //drawAndFillPath(ctx, scalePoints(points,1.5), false);
         
         
     }

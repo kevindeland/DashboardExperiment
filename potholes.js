@@ -16,10 +16,11 @@ function draw() {
         var w_vis = 400;
         var h_vis = 100;
 
-        ctx.fillStyle = "gray";
+        ctx.fillStyle = "#aaaaaa";
         ctx.fillRect(0,0,w_vis, h_vis);
         
-        var potholes = [0.5, 0.5, 0.75, 1, 2, 2.25];
+        var thresholdOn = false;
+        var potholes = thresholdOn ? [0.5, 0.5, 0.75, 1, 2.0, 2.25] : [0.5, 0.5, 0.75, 1, 1.25, 1.5] ;
         var warning_threshold = 2;
         var max_depth = 3.0;
         
@@ -34,7 +35,13 @@ function draw() {
         my_gradient.addColorStop(0, "white");
         my_gradient.addColorStop(1, "red");
                                                    
-
+        for (var d=0; d < max_depth; d+= 0.5) {
+            ctx.beginPath();
+            ctx.moveTo(0, d / max_depth * h_vis);
+            ctx.lineTo(w_vis, d / max_depth * h_vis);
+            ctx.strokeStyle= (d == 2.0) ? "red" : "#FFFFFF";
+            ctx.stroke();
+        }
 
         // draw potholes
         var draw_x = 0;
@@ -50,12 +57,7 @@ function draw() {
             draw_x += segment_width * pothole_buffer_ratio;
         }
         
-        for (var d=0; d < max_depth; d+= 0.5) {
-            ctx.beginPath();
-            ctx.moveTo(0, d / max_depth * h_vis);
-            ctx.lineTo(w_vis, d / max_depth * h_vis);
-            ctx.stroke();
-        }
+
     }
     window.requestAnimationFrame(draw);
 }

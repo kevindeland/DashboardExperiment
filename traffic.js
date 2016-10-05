@@ -16,7 +16,7 @@ function draw() {
         var max_end_y = 0;
         var time = new Date();
         
-        var threshold = true;
+        var threshold = false;
         
         var speed = threshold? 500 : 1000;
 

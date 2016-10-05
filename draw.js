@@ -1,38 +1,14 @@
 
-function initLandslide(){
-    window.requestAnimationFrame(drawLandslide);
-}
-
-function drawLandslide() {
-    var canvas = document.getElementById('landslide');
+function draw() {
+    var canvas = document.getElementById('canvas');
     if (canvas.getContext){
         var ctx = canvas.getContext('2d');
         
         var width = 200;
         var height = 200;
+
         var size = 300;
-
-        var time = new Date();
         
-        var fills = ["#6699ff", "#ff6699", "#99ff66"];
-        // for dance party mode, uncomment
-        fill = fills[(Math.floor(time.getMilliseconds() / (1000/6) ))% 3];
-        fill = fills[0];
-        
-        // defining gradient gradient mode
-        var my_gradient = ctx.createLinearGradient(0,0,
-                         Math.floor(time.getMilliseconds()/1000 * (size+100)),
-                         Math.floor(time.getMilliseconds()/1000 * (size+100)));
-        my_gradient.addColorStop(0, "white");
-        var aboveThreshold = true;
-        var dataColor = aboveThreshold? "#ff4444" :"#6699ff";
-        var dataMultiplier = aboveThreshold? 1.42 : 1.25;
-        
-        my_gradient.addColorStop(0.5, dataColor);
-        my_gradient.addColorStop(1, "white");
-        fill = my_gradient;
-
-        // defining mountain points
         var points = [[0,height],
                       [width/6,height-height/6],
                       [width/4,height-height/3],
@@ -43,9 +19,9 @@ function drawLandslide() {
                       [width,0], 
                       [0,0]];
 
-        // drawing mountain and data lines
-        var data = scalePoints(points, dataMultiplier);
-        drawAndFillPath(ctx, data, true, fill);
+        var data = scalePoints(points, 1.25);
+
+        drawAndFillPath(ctx, data, true, "#6699ff");
         drawAndFillPath(ctx, points, true);
         drawAndFillPath(ctx, scalePoints(points,1.1), false);
         drawAndFillPath(ctx, scalePoints(points,1.2), false);
@@ -81,9 +57,4 @@ function drawLandslide() {
     function fitToCanvas(ctx, x, y) {
         
     }
-
-
-    window.requestAnimationFrame(drawLandslide);
 }
-
-initLandslide();
